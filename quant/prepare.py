@@ -78,7 +78,7 @@ def fixed_fingerprint(study: Study) -> str:
     paths = [*sorted((study.repo / "quantlab").rglob("*.py")),
              *sorted((study.repo / "scripts").glob("*.py")),
              study.repo / "scripts/assessment_policy.json", study.repo / "uv.lock",
-             study.protocol, Path(__file__)]
+             study.protocol, *sorted(Path(__file__).parent.glob("*.py"))]
     digest = hashlib.sha256()
     for path in paths:
         digest.update(path.read_bytes())

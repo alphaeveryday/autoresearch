@@ -35,11 +35,13 @@ Quant reference. Before interpreting a result, read
 
 ## Experiment loop
 
-1. Start with an unchanged baseline. Preserve its source and previous failures.
+1. Read the inherited baseline and previous failures. The factory provides one
+   fresh workspace for one hypothesis; never generate a batch of candidates.
 2. Write the hypothesis and parent before changing the candidate. State which
    development observations informed it. Do not call it a new untouched test.
 3. Make one candidate change; run its causal/synthetic checks first.
-4. From this profile directory run the fixed evaluator (use the locked Python):
+4. The factory supervisor runs synthetic prefix, future-perturbation and repeated
+   call checks first. Only the supervisor runs the fixed evaluator (locked Python):
    `python prepare.py --candidate train.py --hypothesis "mechanism; rival; falsifier" --output /absolute/new-attempt`
 5. Read `assessment.json`, `result.json`, the immutable run source and PnL. A
    completed process is not a passing strategy. Read every blocking result.
@@ -49,8 +51,9 @@ Quant reference. Before interpreting a result, read
 7. `keep` means the frozen development screen passed; `discard` retains the
    source and evidence of a failed screen. A discarded candidate can inform a
    new, separately recorded experiment. Neither result is final confirmation.
-8. Continue from the recorded hypothesis. Preserve parent sources and the full
-   history; do not reset another worktree or erase failed results.
+8. Stop after the assigned hypothesis. The supervisor hands the result and
+   Harness² experience to the next fresh session. Preserve parent sources and
+   the full history; do not reset another worktree or erase failed results.
 
 Each evaluation is bounded to 20 minutes and the registry records incomplete
 attempts. A repeated infrastructure failure requires diagnosis before another
